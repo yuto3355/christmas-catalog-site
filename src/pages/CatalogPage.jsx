@@ -8,13 +8,13 @@ import Swal from 'sweetalert2';
 export default function CatalogPage() {
   // --- ステート定義 ---
   const [gifts, setGifts] = useState([]);
-  const [sortOrder, setSortOrder] = useState('createdAt'); 
   const [filterCategory, setFilterCategory] = useState('all');
+  const [filterImage, setFilterImage] = useState('all');
 
   // --- フック定義 ---
   const [searchParams] = useSearchParams();
 
-  // Firestoreからデータを取得する (初回のみ)
+  // Firestoreからデータを取得する
   useEffect(() => {
     const categoryFromUrl = searchParams.get('category');
     if (categoryFromUrl) {
@@ -31,36 +31,32 @@ export default function CatalogPage() {
     });
 
     return () => unsub();
-  }, []);
+  }, [searchParams]);
 
-  // 絞り込みと並び替えのロジック
+  // 絞り込みロジック
   const displayedGifts = useMemo(() => {
     let filteredGifts = [...gifts];
 
-    // 1. カテゴリで絞り込み
+    // 1. ジャンル(category)で絞り込み
     if (filterCategory !== 'all') {
       filteredGifts = filteredGifts.filter(gift => gift.category === filterCategory);
     }
 
-    // 2. 並び替え
-    switch (sortOrder) {
-      case 'price-asc':
-        filteredGifts.sort((a, b) => a.price - b.price);
-        break;
-      case 'price-desc':
-        filteredGifts.sort((a, b) => b.price - a.price);
-        break;
-      case 'createdAt':
-      default:
-        filteredGifts.sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0));
-        break;
+    // 2. イメージ(image)で絞り込み
+    if (filterImage !== 'all') {
+      filteredGifts = filteredGifts.filter(gift => gift.image === filterImage);
     }
 
     return filteredGifts;
-  }, [gifts, sortOrder, filterCategory]);
+  }, [gifts, filterCategory, filterImage]);
 
 
   // --- 関数定義 ---
+  const handleReset = () => {
+    setFilterCategory('all');
+    setFilterImage('all');
+  };
+
   const handleRandomSelect = () => {
     if (displayedGifts.length === 0) {
       Swal.fire({
@@ -103,17 +99,6 @@ export default function CatalogPage() {
         </h1>
       
         <div className="flex flex-wrap items-center justify-center gap-4 p-4 bg-black/20 rounded-lg">
-          {/* 並び替え */}
-          <select 
-            value={sortOrder} 
-            onChange={(e) => setSortOrder(e.target.value)}
-            className="p-2 border-2 border-christmas-gold bg-christmas-green text-white rounded-lg shadow-sm cursor-pointer"
-          >
-            <option value="createdAt">新着順</option>
-            <option value="price-asc">価格の安い順</option>
-            <option value="price-desc">価格の高い順</option>
-          </select>
-
           {/* カテゴリ絞り込み */}
           <select 
             value={filterCategory} 
@@ -121,12 +106,33 @@ export default function CatalogPage() {
             className="p-2 border-2 border-christmas-gold bg-christmas-green text-white rounded-lg shadow-sm cursor-pointer"
           >
             <option value="all">すべてのカテゴリ</option>
-            <option value="実用">実用</option>
-            <option value="面白い">面白い</option>
-            <option value="癒し">癒し</option>
-            <option value="食品">食品</option>
-            <option value="ガジェット">ガジェット</option>
+            <option value="飲食物">飲食物</option>
+            <option value="文房具">文房具</option>
+            <option value="日用品">日用品</option>
+            <option value="本">本</option>
+            <option value="エンタメ">エンタメ</option>
           </select>
+
+          {/* イメージ絞り込み */}
+          <select 
+            value={filterImage} 
+            onChange={(e) => setFilterImage(e.target.value)}
+            className="p-2 border-2 border-christmas-gold bg-christmas-green text-white rounded-lg shadow-sm cursor-pointer"
+          >
+            <option value="all">すべてのイメージ</option>
+            <option value="かわいい">かわいい</option>
+            <option value="かっこいい">かっこいい</option>
+            <option value="ネタ">ネタ</option>
+            <option value="おしゃれ">おしゃれ</option>
+          </select>
+
+          {/* リセットボタン */}
+          <button 
+            onClick={handleReset}
+            className="bg-gray-500 text-white font-bold px-4 py-2 rounded-lg shadow-sm hover:bg-gray-600 transition-all duration-300"
+          >
+            リセット
+          </button>
 
           {/* ランダム表示ボタン */}
           <button 

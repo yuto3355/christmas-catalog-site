@@ -17,6 +17,7 @@ export default function AdminPage() {
   const [category, setCategory] = useState('実用');
   const [comment, setComment] = useState('');
    // ★★★ 取得したプレゼント一覧を保存するステートを追加 ★★★
+   const [image, setImage] = useState('かわいい'); // ★★★ イメージ用のステートを追加 ★★★
   const [gifts, setGifts] = useState([]);
   // ★★★ ページ表示時にFirestoreからデータを取得する処理を追加 ★★★
   useEffect(() => {
@@ -65,6 +66,7 @@ export default function AdminPage() {
         linkUrl: linkUrl,
         category: category,
         comment: comment,
+        image: image, // ★★★ imageを追加 ★★★
         createdAt: serverTimestamp()
       });
 
@@ -138,6 +140,13 @@ export default function AdminPage() {
             <option value="食品">食品</option>
             <option value="ガジェット">ガジェット</option>
           </select>
+          {/* ★★★ イメージ選択用のselectタグを追加 ★★★ */}
+      <select value={image} onChange={(e) => setImage(e.target.value)} className="w-full p-2 border rounded">
+        <option value="かわいい">かわいい</option>
+        <option value="かっこいい">かっこいい</option>
+        <option value="ネタ">ネタ</option>
+        <option value="おしゃれ">おしゃれ</option>
+      </select>
           <textarea placeholder="コメント・紹介文" value={comment} onChange={(e) => setComment(e.target.value)} className="w-full p-2 border rounded" rows="4"></textarea>
           <button type="submit" className="w-full bg-green-500 text-white p-3 rounded-lg font-bold hover:bg-green-600">
             登録する

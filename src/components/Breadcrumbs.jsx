@@ -5,52 +5,47 @@ import { doc, getDoc } from 'firebase/firestore';
 
 export default function Breadcrumbs() {
   const location = useLocation();
-  const params = useParams(); // URLの:idなどを取得
+  const params = useParams();
   const [giftDetails, setGiftDetails] = useState(null);
 
+  // 詳細ページにいる時だけ、プレゼント情報を取得する
   useEffect(() => {
-    // 詳細ページ (例: /item/xxxx) にいる時だけ実行
     if (params.id) {
       const fetchGiftDetails = async () => {
         const docRef = doc(db, "gifts", params.id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setGiftDetails(docSnap.data()); // 取得したデータをステートに保存
+          setGiftDetails(docSnap.data());
         }
       };
       fetchGiftDetails();
     } else {
-      setGiftDetails(null); // 詳細ページ以外ではリセット
+      setGiftDetails(null);
     }
-  }, [params.id]); // URLのidが変わるたびに実行
+  }, [params.id]);
 
   // パンくずリストの基本形
   let crumbs = [
-    <Link key="home" to="/" className="text-red-500 hover:underline">ホーム</Link>
+    <Link key="home" to="/" className="text-gray-200 hover:text-white hover:underline">ホーム</Link>
   ];
 
+  // カタログページの場合
   if (location.pathname.startsWith('/catalog')) {
     crumbs.push(
-      <span key="catalog" className="text-gray-500">
+      <span key="catalog-current" className="text-white">
         {' / '}
         カタログ
       </span>
     );
+  // 詳細ページの場合
   } else if (location.pathname.startsWith('/item/') && giftDetails) {
-    // 詳細ページ用のパンくずリストを生成
     crumbs.push(
       <span key="catalog-link">
         {' / '}
-        <Link to="/catalog" className="text-red-500 hover:underline">カタログ</Link>
+        <Link to="/catalog" className="text-gray-200 hover:text-white hover:underline">カタログ</Link>
       </span>,
-      <span key="category-link">
-        {' / '}
-        {/* カテゴリ名をクリックすると、絞り込まれたカタログページに飛ぶ */}
-        <Link to={`/catalog?category=${giftDetails.category}`} className="text-red-500 hover:underline">
-          {giftDetails.category}
-        </Link>
-      </span>,
-      <span key="item-title" className="text-gray-500">
+      // ★★★ アイテム名（プレゼント名）を直接表示 ★★★
+      <span key="item-title" className="text-white">
         {' / '}
         {giftDetails.title}
       </span>
@@ -58,7 +53,7 @@ export default function Breadcrumbs() {
   }
 
   return (
-    <div className="container mx-auto p-4 bg-gray-50">
+    <div className="container mx-auto p-4 bg-white/10 backdrop-blur-sm">
       {crumbs}
     </div>
   );

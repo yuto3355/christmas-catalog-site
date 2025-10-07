@@ -4,8 +4,12 @@ import { Link } from 'react-router-dom';
 export default function Header() {
   return (
     <header className="bg-christmas-green/80 backdrop-blur-sm shadow-lg sticky top-0 z-50">
-      <div className="container mx-auto p-4 flex justify-between items-center">
-        <Link to="/" className="text-2xl font-bold text-white text-shadow-lg">
+      {/* ★★★ ここのクラス名を最終修正 ★★★ */}
+      <div className="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
+        <Link 
+          to="/" 
+          className="font-bold text-white text-shadow-lg text-2xl" // シンプルなクラス名に戻す
+        >
           🎄 Christmas Catalog
         </Link>
         <nav>
