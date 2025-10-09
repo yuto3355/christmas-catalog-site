@@ -134,18 +134,20 @@ export default function AdminPage() {
           <input type="text" placeholder="画像URL" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} className="w-full p-2 border rounded" />
           <input type="text" placeholder="購入ページURL" value={linkUrl} onChange={(e) => setLinkUrl(e.target.value)} className="w-full p-2 border rounded" />
           <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full p-2 border rounded">
-            <option value="実用">実用</option>
-            <option value="面白い">面白い</option>
-            <option value="癒し">癒し</option>
-            <option value="食品">食品</option>
-            <option value="ガジェット">ガジェット</option>
+            <option value="飲食物">飲食物</option>
+            <option value="文房具">文房具</option>
+            <option value="日用品">日用品</option>
+            <option value="本">本</option>
+            <option value="エンタメ">エンタメ</option>
           </select>
           {/* ★★★ イメージ選択用のselectタグを追加 ★★★ */}
       <select value={image} onChange={(e) => setImage(e.target.value)} className="w-full p-2 border rounded">
-        <option value="かわいい">かわいい</option>
-        <option value="かっこいい">かっこいい</option>
-        <option value="ネタ">ネタ</option>
-        <option value="おしゃれ">おしゃれ</option>
+            <option value="癒し">癒し</option>
+            <option value="ユニーク">ユニーク</option>
+            <option value="便利">便利</option>
+            <option value="おしゃれ">おしゃれ</option>
+            <option value="学び">学び</option>
+            <option value="ワクワク">ワクワク</option>
       </select>
           <textarea placeholder="コメント・紹介文" value={comment} onChange={(e) => setComment(e.target.value)} className="w-full p-2 border rounded" rows="4"></textarea>
           <button type="submit" className="w-full bg-green-500 text-white p-3 rounded-lg font-bold hover:bg-green-600">
