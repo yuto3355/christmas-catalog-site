@@ -105,7 +105,7 @@ export default function CatalogPage() {
             onChange={(e) => setFilterCategory(e.target.value)}
             className="p-2 border-2 border-christmas-gold bg-christmas-green text-white rounded-lg shadow-sm cursor-pointer"
           >
-            <option value="all">すべてのカテゴリ</option>
+            <option value="all">全カテゴリ</option>
             <option value="飲食物">飲食物</option>
             <option value="文房具">文房具</option>
             <option value="日用品">日用品</option>
@@ -119,11 +119,13 @@ export default function CatalogPage() {
             onChange={(e) => setFilterImage(e.target.value)}
             className="p-2 border-2 border-christmas-gold bg-christmas-green text-white rounded-lg shadow-sm cursor-pointer"
           >
-            <option value="all">すべてのイメージ</option>
-            <option value="かわいい">かわいい</option>
-            <option value="かっこいい">かっこいい</option>
-            <option value="ネタ">ネタ</option>
+            <option value="all">全イメージ</option>
+            <option value="癒し">癒し</option>
+            <option value="ユニーク">ユニーク</option>
+            <option value="便利">便利</option>
             <option value="おしゃれ">おしゃれ</option>
+            <option value="学び">学び</option>
+            <option value="ワクワク">ワクワク</option>
           </select>
 
           {/* リセットボタン */}
